@@ -17,17 +17,6 @@ LeapTest.GestureTest = (function() {
 			var $handCount = $("#count");
 
 			LeapController.loop(function(frame) {
-				/*if (frame.hands.length) {
-					if (frame.hands[0].palmPosition) {
-						pos = frame.hands[0].palmPosition;
-
-						$pointer.css({
-							left: screenCentreX + pos[0],
-							bottom: pos[1]
-						});
-					}
-				}*/
-
 				var prevFrame = LeapController.frame(10);
 
 				if (frame.hands.length) {
@@ -39,13 +28,21 @@ LeapTest.GestureTest = (function() {
 						// grab detection
 						if (prevFrame.hands.length) {
 
-							if (prevFrame.hands[0].fingers.length === 5 && frame.hands[i].fingers.length === 0) {
+							// make sure it's the same hand
+
+							// detect the grab
+							if (prevFrame.hands[0].fingers.length > 3 && frame.hands[i].fingers.length < 2) {
 								console.log("grab");
 							}
 
-							if (prevFrame.hands[0].fingers.length === 0 && frame.hands[i].fingers.length === 5) {
+							// detect the release
+							if (prevFrame.hands[0].fingers.length < 2 && frame.hands[i].fingers.length > 3) {
 								console.log("release");
 							}
+
+							// find a way to limit the number of events fired
+
+							// if the hand leaves then fire the release
 						}
 					}
 				} else {
